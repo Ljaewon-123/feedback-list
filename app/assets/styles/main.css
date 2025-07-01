@@ -1,3 +1,18 @@
 @import "tailwindcss";
 @import "tailwindcss-primeui";
 @import 'primeicons/primeicons.css';
+
+
+.p-select-dropdown {
+  cursor: default;
+}
+.p-select-label{
+  cursor: default;
+}
+.p-select {
+  cursor: default;
+}
+
+/* .p-component {
+  cursor: auto;
+} */
