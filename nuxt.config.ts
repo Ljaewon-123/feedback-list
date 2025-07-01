@@ -19,9 +19,14 @@ export default defineNuxtConfig({
       theme: {
         preset: Aura,
         options: {
-          darkModeSelector: 'system',
+          prefix: 'p',
+          darkModeSelector: '.dark-mode',
         }
       }
     }
-  }
+  },
+  // colorMode: {
+  //   storage: 'cookie', // or 'sessionStorage' or 'cookie'
+  //   storageKey: 'nuxt-color-mode'
+  // }
 })
