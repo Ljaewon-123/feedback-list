@@ -14,6 +14,8 @@ const isDark = computed({
 <template>
   <ClientOnly >
     <Button
+      size="small"
+      variant="outlined"
       :icon="isDark ? 'pi pi-moon' : 'pi pi-sun'"
       @click="isDark = !isDark"
     />
