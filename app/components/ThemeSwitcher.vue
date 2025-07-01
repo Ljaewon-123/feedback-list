@@ -21,6 +21,8 @@ const isDark = computed({
     />
     <template #fallback>
       <Button
+        size="small"
+        variant="outlined"
         :icon="'pi pi-desktop'"
       />
     </template>
