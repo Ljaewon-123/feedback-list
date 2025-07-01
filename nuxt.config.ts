@@ -1,4 +1,5 @@
 import Aura from '@primeuix/themes/aura';
+import { Noir } from './configs/prime-theme';
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
@@ -17,7 +18,7 @@ export default defineNuxtConfig({
       ripple: true,
       inputVariant: 'filled',
       theme: {
-        preset: Aura,
+        preset: Noir,
         options: {
           prefix: 'p',
           darkModeSelector: '.dark-mode',
