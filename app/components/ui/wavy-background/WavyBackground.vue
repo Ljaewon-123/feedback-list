@@ -30,7 +30,7 @@ interface WavyBackgroundProps {
   [key: string]: any
 }
 
-const { isDark } = useDarkMode()
+
 
 const props = withDefaults(defineProps<WavyBackgroundProps>(), {
   colors: () => ['#38bdf8', '#818cf8', '#c084fc', '#e879f9', '#22d3ee'],
@@ -94,7 +94,7 @@ function drawWave(n: number) {
 
 function render() {
   if (ctx) {
-    ctx.fillStyle = !isDark.value ? 'white' : props.backgroundFill! 
+    ctx.fillStyle = props.backgroundFill! 
     ctx.globalAlpha = props.waveOpacity!
     ctx.fillRect(0, 0, w, h)
     drawWave(5)

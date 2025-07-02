@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-      <Menubar class="rounded-none!">
+      <Menubar class="rounded-none! border-none! ">
         <template #start>
           We Need Main Icon!!
         </template>
