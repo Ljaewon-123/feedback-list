@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   future: { compatibilityVersion: 4 },
   css: [
     '~/assets/styles/main.css',
-    '~/assets/tyles/inspira.css'
+    '~/assets/styles/inspira.css'
   ],
   modules: [
     '@nuxt/fonts',
