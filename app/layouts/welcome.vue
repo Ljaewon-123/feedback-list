@@ -9,12 +9,12 @@
         <template #end> 
           <div class="flex items-center gap-2">
             <NuxtLink to="https://github.com/Ljaewon-123/feedback-list/discussions" target="_blank">
-              <Button icon="pi pi-comments" size="small" variant="outlined" aria-label="Comments" />
+              <Button class="cursor-pointer! hover:bg-gray-200! dark:hover:bg-[#27272a]!" icon="pi pi-comments" size="small" variant="outlined" aria-label="Comments" />
             </NuxtLink>
             <NuxtLink to="https://github.com/Ljaewon-123/feedback-list" target="_blank" >
-              <Button icon="pi pi-github" size="small" variant="outlined" aria-label="Github" />
+              <Button class="cursor-pointer! hover:bg-gray-200! dark:hover:bg-[#27272a]!" icon="pi pi-github" size="small" variant="outlined" aria-label="Github" />
             </NuxtLink>
-            <ThemeSwitcher />
+            <ThemeSwitcher class="hover:bg-gray-200! dark:hover:bg-[#27272a]!" />
             <Select 
               v-model="version"
               :options="versions" 
