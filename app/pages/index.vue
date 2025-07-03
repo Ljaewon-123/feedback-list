@@ -37,10 +37,12 @@ const { isDark } = useDarkMode()
         </span>
 
         <div class="my-2 flex flex-row items-center justify-center gap-4">
-          <Button to="/components"> Get Started </Button>
+          <UiInteractiveHoverButton :text="'Get Started' "/>
           <Button
             to="/blocks"
             variant="secondary"
+            severity="secondary"
+            rounded 
           >
             Learn More
           </Button>
