@@ -6,6 +6,10 @@ definePageMeta({
 })
 
 const { isDark } = useDarkMode()
+
+const routeHanlder = async() => {
+  await navigateTo('/dashboard')
+}
 </script>
 
 <template>
@@ -37,7 +41,7 @@ const { isDark } = useDarkMode()
         </span>
 
         <div class="my-2 flex flex-row items-center justify-center gap-4">
-          <UiInteractiveHoverButton :text="'Get Started' "/>
+          <UiInteractiveHoverButton @click="routeHanlder" :text="'Get Started' "/>
           <Button
             to="/blocks"
             variant="secondary"

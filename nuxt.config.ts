@@ -15,7 +15,9 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@primevue/nuxt-module',
     '@nuxtjs/color-mode',
-    '@vueuse/nuxt'
+    '@vueuse/nuxt',
+    '@nuxtjs/supabase',
+    '@nuxt/image'
   ],
   primevue: {
     options: {
@@ -29,6 +31,9 @@ export default defineNuxtConfig({
         }
       }
     }
+  },
+  supabase:{
+    redirect: false
   },
   // colorMode: {
   //   storage: 'cookie', // or 'sessionStorage' or 'cookie'
