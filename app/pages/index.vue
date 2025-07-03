@@ -52,7 +52,7 @@ const { isDark } = useDarkMode()
           class="relative flex h-fit w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background p-px md:shadow-xl"
         >
           <img
-            src="C:/WorkSpace/feedback-list/public/favicon.ico"
+            src="public/favicon.ico"
             class="w-full rounded-md"
           />
           <UiBorderBeam

@@ -86,9 +86,9 @@
 html {
   color-scheme: light dark;
 }
-html.dark {
+html.dark-mode {
   color-scheme: dark;
 }
-html.light {
+html.light-mode {
   color-scheme: light;
 }
