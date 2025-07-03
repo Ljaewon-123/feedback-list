@@ -1,0 +1,9 @@
+@layer utilities {
+  .hover-bg-clickable {
+    @apply hover:bg-gray-200! dark:hover:bg-[#27272a]!;
+  }
+  
+  .hover-surface-soft {
+    @apply hover:bg-gray-100! dark:hover:bg-[#3a3a3d]!;
+  }
+}

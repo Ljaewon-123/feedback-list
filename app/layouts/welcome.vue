@@ -12,7 +12,7 @@
               <Button class="cursor-pointer! hover:bg-gray-200! dark:hover:bg-[#27272a]!" icon="pi pi-comments" size="small" variant="outlined" aria-label="Comments" />
             </NuxtLink>
             <NuxtLink to="https://github.com/Ljaewon-123/feedback-list" target="_blank" >
-              <Button class="cursor-pointer! hover:bg-gray-200! dark:hover:bg-[#27272a]!" icon="pi pi-github" size="small" variant="outlined" aria-label="Github" />
+              <Button class="cursor-pointer! hover-bg-clickable" icon="pi pi-github" size="small" variant="outlined" aria-label="Github" />
             </NuxtLink>
             <ThemeSwitcher class="hover:bg-gray-200! dark:hover:bg-[#27272a]!" />
             <Select 
