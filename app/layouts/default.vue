@@ -2,8 +2,22 @@
   <div>
     <header>
       <div class="card">
-        <Menubar class="rounded-none!" :model="items" />
+        <Menubar class="rounded-none!" :model="items">
+          <template #start>
+            hi
+          </template>
+          <template #end>
+            <Avatar 
+              image="https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456" 
+              class="mr-2" 
+              size="small" 
+              shape="circle" 
+              @click="toggle"
+            />
+          </template>
+        </Menubar>
         <Toast />
+        <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
       </div>
     </header>
     <div class="bg-white dark:bg-[#18181b] h-screen text-black dark:text-white">
@@ -15,6 +29,13 @@
 <script setup lang="ts">
 const toast = useToast();
 
+
+const menu = templateRef<any>('menu');
+const toggle = (event: any) => {
+  menu.value.toggle(event);
+};
+
+// 좋은데?
 const items = ref([
     {
         label: 'File',
