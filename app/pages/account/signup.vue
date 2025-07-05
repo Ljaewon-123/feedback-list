@@ -39,12 +39,18 @@ const email = ref(initialValues.email);
 const password = ref(initialValues.password);
 
 // 폼 제출 핸들러
-const loginHandler = async (e: any) => {
+const handleLogin = async (e: any) => {
   if(!e.valid) return 
 
   loading.value = true;
 
-  const { error } = await supabase.auth.signInWithPassword({
+  // const { error: signupError } = await supabase.auth.signUp({
+  //   email: email.value,
+  //   password: password.value,
+  // })
+  // console.log(signupError)
+
+  const { error } = await supabase.auth.signUp({
     email: email.value,
     password: password.value,
   })
@@ -57,7 +63,7 @@ const loginHandler = async (e: any) => {
 
   loading.value = false;
 
-  await navigateTo('/dashboard'); // 로그인 성공 후 대시보드로 리디렉션
+  await navigateTo('/login')
 };
 </script>
 
@@ -65,49 +71,16 @@ const loginHandler = async (e: any) => {
   <div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        Welcome back
+        Get Started
       </h2>
       <p class="mt-2 text-center text-sm text-gray-600">
-        Sign in to your account
+        Sign up to your account
       </p>
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white py-8 px-4 shadow-sm sm:rounded-lg sm:px-10 border border-gray-200">
-        <div class="space-y-6 mb-6">
-          <Button
-            label="Continue with GitHub"
-            icon="pi pi-lock"
-            variant="outlined"
-            class="w-full justify-center p-3 rounded-lg border border-gray-300 text-gray-800 hover:bg-gray-50 flex items-center gap-2"
-            :pt="{
-              label: { class: 'text-base font-medium' },
-              icon: { class: 'text-lg' }
-            }"
-          />
-
-          <Button
-            label="Continue with Google"
-            icon="pi pi-google"
-            variant="outlined"
-            class="w-full justify-center p-3 rounded-lg border border-gray-300 text-gray-800 hover:bg-gray-50 flex items-center gap-2"
-            :pt="{
-              label: { class: 'text-base font-medium' },
-              icon: { class: 'text-lg' }
-            }"
-          />
-        </div>
-
-        <div class="relative mb-6">
-          <div class="absolute inset-0 flex items-center" aria-hidden="true">
-            <div class="w-full border-t border-gray-300"></div>
-          </div>
-          <div class="relative flex justify-center text-sm">
-            <span class="bg-white px-2 text-gray-500">or</span>
-          </div>
-        </div>
-
-        <Form v-slot="$form" @submit="loginHandler" :initialValues :resolver="resolver" class="space-y-6">
+        <Form v-slot="$form" @submit="handleLogin" :initialValues :resolver="resolver" class="space-y-6">
           <div>
             <label for="email" class="block text-sm font-bold text-gray-700 mb-1">
               Email
@@ -124,9 +97,9 @@ const loginHandler = async (e: any) => {
                 Password
               </label>
               <div class="text-sm text-emerald-500 dark:text-emerald-400">
-                <NuxtLink to="/account/forgot-password" class="font-bold " >
+                <a href="#" class="font-medium">
                   Forgot Password?
-                </NuxtLink>
+                </a>
               </div>
             </div>
             <div>
@@ -153,9 +126,7 @@ const loginHandler = async (e: any) => {
 
     <div class="mt-6 text-center text-sm">
       <span class="text-gray-600">Don't have an account?</span>
-      <NuxtLink to="/account/signup" class="text-emerald-500 dark:text-emerald-400 ml-1 font-medium" >
-        Sign Up Now
-      </NuxtLink>
+      <a href="#" class="text-emerald-500 dark:text-emerald-400 ml-1 font-medium">Sign Up Now</a>
     </div>
 
     <div class="mt-8 text-center text-xs text-gray-500 px-4">
