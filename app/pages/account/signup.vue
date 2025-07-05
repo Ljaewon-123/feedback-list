@@ -44,12 +44,6 @@ const handleLogin = async (e: any) => {
 
   loading.value = true;
 
-  // const { error: signupError } = await supabase.auth.signUp({
-  //   email: email.value,
-  //   password: password.value,
-  // })
-  // console.log(signupError)
-
   const { error } = await supabase.auth.signUp({
     email: email.value,
     password: password.value,
@@ -61,7 +55,7 @@ const handleLogin = async (e: any) => {
     toast.add({ severity: 'error', summary: 'Login Failed', detail: error.message, life: 3000 });
   } else {
     toast.add({ severity: 'success', summary: 'Login Successful', detail: 'Welcome back!', life: 3000 });
-      await navigateTo('/login')
+    await navigateTo('/login')
   }
 };
 </script>
@@ -116,7 +110,7 @@ const handleLogin = async (e: any) => {
               type="submit"
               label="Sign In"
               class="w-full justify-center py-3 px-4 border-2! border-emerald-700! rounded-md shadow-sm text-lg font-semibold text-white bg-emerald-500! hover:bg-emerald-600! focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-              
+              :loading="loading"
             />
           </div>
         </Form>

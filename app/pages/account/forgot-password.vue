@@ -69,7 +69,7 @@ const handler = async (e: any) => {
               type="submit"
               label="Sign In"
               class="w-full justify-center py-3 px-4 border-2! border-emerald-700! rounded-md shadow-sm text-lg font-semibold text-white bg-emerald-500! hover:bg-emerald-600! focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-              
+              :loading="loading"
             />
           </div>
         </Form>
