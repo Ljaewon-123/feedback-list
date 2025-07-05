@@ -49,15 +49,14 @@ const loginHandler = async (e: any) => {
     password: password.value,
   })
 
+  loading.value = false;
+
   if (error) {
     toast.add({ severity: 'error', summary: 'Login Failed', detail: error.message, life: 3000 });
   } else {
     toast.add({ severity: 'success', summary: 'Login Successful', detail: 'Welcome back!', life: 3000 });
+    await navigateTo('/dashboard'); // 로그인 성공 후 대시보드로 리디렉션
   }
-
-  loading.value = false;
-
-  await navigateTo('/dashboard'); // 로그인 성공 후 대시보드로 리디렉션
 };
 </script>
 
@@ -124,7 +123,7 @@ const loginHandler = async (e: any) => {
                 Password
               </label>
               <div class="text-sm text-emerald-500 dark:text-emerald-400">
-                <NuxtLink to="/account/forgot-password" class="font-bold " >
+                <NuxtLink to="/password/reset" class="font-bold " >
                   Forgot Password?
                 </NuxtLink>
               </div>

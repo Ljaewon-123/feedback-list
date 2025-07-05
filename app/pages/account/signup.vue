@@ -54,16 +54,15 @@ const handleLogin = async (e: any) => {
     email: email.value,
     password: password.value,
   })
+  
+  loading.value = false;
 
   if (error) {
     toast.add({ severity: 'error', summary: 'Login Failed', detail: error.message, life: 3000 });
   } else {
     toast.add({ severity: 'success', summary: 'Login Successful', detail: 'Welcome back!', life: 3000 });
+      await navigateTo('/login')
   }
-
-  loading.value = false;
-
-  await navigateTo('/login')
 };
 </script>
 

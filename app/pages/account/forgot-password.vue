@@ -29,7 +29,7 @@ const handler = async (e: any) => {
 
   loading.value = true;
 
-  const { error } = await supabase.auth.resetPasswordForEmail('valid.email@supabase.io', {
+  const { error } = await supabase.auth.resetPasswordForEmail(email.value, {
     redirectTo: 'http://localhost:3000/account/update-password',
   })
 
