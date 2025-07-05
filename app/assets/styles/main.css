@@ -13,9 +13,11 @@
 .p-select {
   cursor: default;
 }
-.p-button {
+
+
+/* .p-button {
   cursor: default;
-}
+} */
 
 /* .p-component {
   cursor: auto;

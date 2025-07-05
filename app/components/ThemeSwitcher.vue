@@ -9,6 +9,7 @@ const { isDark } = useDarkMode()
       variant="outlined"
       :icon="isDark ? 'pi pi-moon' : 'pi pi-sun'"
       @click="isDark = !isDark"
+      class="cursor-default!"
     />
     <template #fallback>
       <Button

@@ -9,12 +9,12 @@
         <template #end> 
           <div class="flex items-center gap-2">
             <NuxtLink to="https://github.com/Ljaewon-123/feedback-list/discussions" target="_blank">
-              <Button class="cursor-pointer! hover:bg-gray-200! dark:hover:bg-[#27272a]!" icon="pi pi-comments" size="small" variant="outlined" aria-label="Comments" />
+              <Button class="hover-bg-clickable" icon="pi pi-comments" size="small" variant="outlined" aria-label="Comments" />
             </NuxtLink>
             <NuxtLink to="https://github.com/Ljaewon-123/feedback-list" target="_blank" >
-              <Button class="cursor-pointer! hover-bg-clickable" icon="pi pi-github" size="small" variant="outlined" aria-label="Github" />
+              <Button class="hover-bg-clickable" icon="pi pi-github" size="small" variant="outlined" aria-label="Github" />
             </NuxtLink>
-            <ThemeSwitcher class="hover:bg-gray-200! dark:hover:bg-[#27272a]!" />
+            <ThemeSwitcher class="hover-bg-clickable" />
             <Select 
               v-model="version"
               :options="versions" 
@@ -30,6 +30,11 @@
                 </div>
               </template>
             </Select>
+            <NuxtLink to="/login" class="font-bold " >
+              <Button size="small" label="Sign in" icon="pi pi-user" class="cursor-pointer!" variant="outlined" :pt="{
+                root:'hover:ring-2! border-zinc-600! dark:border-gray-500!',
+              }" />
+            </NuxtLink>
           </div>
         </template>
     </Menubar>
