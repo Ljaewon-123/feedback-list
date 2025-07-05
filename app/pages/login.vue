@@ -6,6 +6,9 @@ definePageMeta({
   layout: false
 })
 
+const toast = useToast();
+const supabase = useSupabaseClient()
+const loading = ref(false);
 
 const resolver = zodResolver(
   z.object({
@@ -15,30 +18,49 @@ const resolver = zodResolver(
     password: z
       .string()
       .min(3, { message: 'Minimum 3 characters.' })
-      .max(8, { message: 'Maximum 8 characters.' })
-      .refine((value) => /[a-z]/.test(value), {
-          message: 'Must have a lowercase letter.'
-      })
-      .refine((value) => /[A-Z]/.test(value), {
-          message: 'Must have an uppercase letter.'
-      })
-      .refine((value) => /d/.test(value), {
-          message: 'Must have a number.'
-      })
+      // .refine((value) => /[a-z]/.test(value), {
+      //     message: 'Must have a lowercase letter.'
+      // })
+      // .refine((value) => /[A-Z]/.test(value), {
+      //     message: 'Must have an uppercase letter.'
+      // })
+      // .refine((value) => /d/.test(value), {
+      //     message: 'Must have a number.'
+      // })
   })
 );
 
-const initialValues = ref({
-  username: '',
+const initialValues = {
+  email: '',
   password: ''
-});
+};
+const email = ref(initialValues.email);
+const password = ref(initialValues.password);
 
 // 폼 제출 핸들러
-const handleLogin = (e: any) => {
-  if (e.valid) {
-    alert('form is vaild')
-    // toast.add({ severity: 'success', summary: 'Form is submitted.', life: 3000 });
+const handleLogin = async (e: any) => {
+  if(!e.valid) return 
+
+  loading.value = true;
+
+  // const { error: signupError } = await supabase.auth.signUp({
+  //   email: email.value,
+  //   password: password.value,
+  // })
+  // console.log(signupError)
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email: email.value,
+    password: password.value,
+  })
+
+  if (error) {
+    toast.add({ severity: 'error', summary: 'Login Failed', detail: error.message, life: 3000 });
+  } else {
+    toast.add({ severity: 'success', summary: 'Login Successful', detail: 'Welcome back!', life: 3000 });
   }
+
+  loading.value = false;
 };
 </script>
 
@@ -55,7 +77,7 @@ const handleLogin = (e: any) => {
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white py-8 px-4 shadow-sm sm:rounded-lg sm:px-10 border border-gray-200">
-        <div class="space-y-3 mb-6">
+        <div class="space-y-6 mb-6">
           <Button
             label="Continue with GitHub"
             icon="pi pi-lock"
@@ -94,7 +116,7 @@ const handleLogin = (e: any) => {
               Email
             </label>
             <div >
-              <InputText name="email" placeholder="Email" fluid />
+              <InputText v-model="email" name="email" placeholder="Email" fluid />
               <Message v-if="$form.email?.invalid" severity="error" size="small" variant="simple">{{ $form.email.error.message }}</Message>
             </div>
           </div>
@@ -104,14 +126,14 @@ const handleLogin = (e: any) => {
               <label for="password" class="block text-sm font-bold text-gray-700">
                 Password
               </label>
-              <div class="text-sm">
-                <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
+              <div class="text-sm text-emerald-500 dark:text-emerald-400">
+                <a href="#" class="font-medium">
                   Forgot Password?
                 </a>
               </div>
             </div>
             <div>
-              <Password name="password" placeholder="Password" :feedback="false" toggleMask fluid />
+              <Password v-model="password" name="password" placeholder="Password" :feedback="false" toggleMask fluid />
               <Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">
                   <ul class="my-0 px-4 flex flex-col gap-1">
                       <li v-for="(error, index) of $form.password.errors" :key="index">{{ error.message }}</li>
@@ -124,15 +146,22 @@ const handleLogin = (e: any) => {
             <Button
               type="submit"
               label="Sign In"
-              class="w-full justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-semibold text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              class="w-full justify-center py-3 px-4 border-2! border-emerald-700! rounded-md shadow-sm text-lg font-semibold text-white bg-emerald-500! hover:bg-emerald-600! focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              
             />
           </div>
         </Form>
       </div>
     </div>
 
+    <div class="mt-6 text-center text-sm">
+      <span class="text-gray-600">Don't have an account?</span>
+      <a href="#" class="text-emerald-500 dark:text-emerald-400 ml-1 font-medium">Sign Up Now</a>
+    </div>
+
     <div class="mt-8 text-center text-xs text-gray-500 px-4">
       Lorem ipsum dolor, sit amet consectetur adipisicing elit. Possimus, obcaecati accusantium, tenetur quasi molestias labore quia dolores sunt doloribus eligendi corrupti illo eos quisquam amet? Natus numquam animi corrupti ab?
     </div>
   </div>
+  <Toast />
 </template>
