@@ -90,7 +90,7 @@ async function signInWithGoogle() {
 </script>
 
 <template>
-  <div class="min-h-80 bg-gray-50 flex flex-col justify-start py-12 sm:px-6 lg:px-8">
+  <div class="flex-1 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
         Welcome back
@@ -187,5 +187,9 @@ async function signInWithGoogle() {
         Sign Up Now
       </NuxtLink>
     </div>
+
+    <!-- <footer class="text-center text-xs md:mt-16 text-gray-500 px-4">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Possimus, obcaecati accusantium, tenetur quasi molestias labore quia dolores sunt doloribus eligendi corrupti illo eos quisquam amet? Natus numquam animi corrupti ab?
+    </footer> -->
   </div>
 </template>

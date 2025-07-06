@@ -1,6 +1,5 @@
-
 <template>
-    <div class="card">
+    <div>
         <Menubar>
             <template #start>
                 We need main icon!
@@ -23,8 +22,5 @@
             </template>
         </Menubar>
         <slot/>
-        <footer class="mt-8 text-center text-xs text-gray-500 px-4">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Possimus, obcaecati accusantium, tenetur quasi molestias labore quia dolores sunt doloribus eligendi corrupti illo eos quisquam amet? Natus numquam animi corrupti ab?
-        </footer>
     </div>
 </template>
