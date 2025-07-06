@@ -3,7 +3,7 @@ import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { z } from 'zod';
 
 definePageMeta({
-  layout: false
+  layout: 'login'
 })
 
 const toast = useToast();
@@ -53,20 +53,49 @@ const loginHandler = async (e: any) => {
 
   if (error) {
     toast.add({ severity: 'error', summary: 'Login Failed', detail: error.message, life: 3000 });
-  } else {
-    toast.add({ severity: 'success', summary: 'Login Successful', detail: 'Welcome back!', life: 3000 });
-    await navigateTo('/dashboard'); // 로그인 성공 후 대시보드로 리디렉션
-  }
+    return 
+  } 
+  toast.add({ severity: 'success', summary: 'Login Successful', detail: 'Welcome back!', life: 3000 });
+  await navigateTo('/dashboard'); // 로그인 성공 후 대시보드로 리디렉션
 };
+
+
+async function signInWithGithub() {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'github',
+    options: {
+      redirectTo: 'http://localhost:3000/dashboard',
+    },
+  })
+
+  if (error) {
+    toast.add({ severity: 'error', summary: 'Login Failed', detail: error.message, life: 3000 });
+  } 
+}
+
+async function signInWithGoogle() {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: 'http://localhost:3000/dashboard',
+    },
+  })
+
+  if (error) {
+    toast.add({ severity: 'error', summary: 'Login Failed', detail: error.message, life: 3000 });
+  } 
+}
+
+
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="min-h-80 bg-gray-50 flex flex-col justify-start py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+      <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
         Welcome back
       </h2>
-      <p class="mt-2 text-center text-sm text-gray-600">
+      <p class="mt-2 text-sm text-gray-600">
         Sign in to your account
       </p>
     </div>
@@ -75,6 +104,7 @@ const loginHandler = async (e: any) => {
       <div class="bg-white py-8 px-4 shadow-sm sm:rounded-lg sm:px-10 border border-gray-200">
         <div class="space-y-6 mb-6">
           <Button
+            @click="signInWithGithub"
             label="Continue with GitHub"
             icon="pi pi-lock"
             variant="outlined"
@@ -86,6 +116,7 @@ const loginHandler = async (e: any) => {
           />
 
           <Button
+            @click="signInWithGoogle"
             label="Continue with Google"
             icon="pi pi-google"
             variant="outlined"
@@ -156,10 +187,5 @@ const loginHandler = async (e: any) => {
         Sign Up Now
       </NuxtLink>
     </div>
-
-    <div class="mt-8 text-center text-xs text-gray-500 px-4">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Possimus, obcaecati accusantium, tenetur quasi molestias labore quia dolores sunt doloribus eligendi corrupti illo eos quisquam amet? Natus numquam animi corrupti ab?
-    </div>
   </div>
-  <Toast />
 </template>

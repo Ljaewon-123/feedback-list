@@ -36,7 +36,7 @@ const handler = async (e: any) => {
   if (error) {
     toast.add({ severity: 'error', summary: 'Email Send Failed', detail: error.message, life: 3000 });
   } else {
-    toast.add({ severity: 'success', summary: 'Email Send Successful', detail: 'Reset Password', life: 3000 });
+    toast.add({ severity: 'success', summary: 'Email Send Successful', detail: 'Check your email', life: 3000 });
   }
 
   loading.value = false;

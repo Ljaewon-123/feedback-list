@@ -33,7 +33,16 @@ export default defineNuxtConfig({
     }
   },
   supabase:{
-    redirect: false
+    redirect: true,
+    redirectOptions: {
+      login: '/login',
+      callback: '/confirm', 
+      exclude: [
+        '/account/forgot-password',
+        '/account/signup',
+        '/confirm'
+      ]
+    }
   },
   // colorMode: {
   //   storage: 'cookie', // or 'sessionStorage' or 'cookie'
