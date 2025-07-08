@@ -86,7 +86,6 @@ async function signInWithGoogle() {
   } 
 }
 
-
 </script>
 
 <template>
