@@ -40,7 +40,8 @@ export default defineNuxtConfig({
       exclude: [
         '/account/forgot-password',
         '/account/signup',
-        '/confirm'
+        '/confirm',
+        '/'
       ]
     }
   },
