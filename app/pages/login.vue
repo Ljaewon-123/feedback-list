@@ -105,7 +105,7 @@ async function signInWithGoogle() {
           <Button
             @click="signInWithGithub"
             label="Continue with GitHub"
-            icon="pi pi-lock"
+            icon="pi pi-github"
             variant="outlined"
             class="w-full justify-center p-3 rounded-lg border border-gray-300 text-gray-800 hover:bg-gray-50 flex items-center gap-2"
             :pt="{
