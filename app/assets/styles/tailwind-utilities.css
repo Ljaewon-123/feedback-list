@@ -6,4 +6,12 @@
   .hover-surface-soft {
     @apply hover:bg-gray-100! dark:hover:bg-[#3a3a3d]!;
   }
+
+  .hover-transition-right-3 {
+    @apply transition-transform duration-300 ease-in-out hover:translate-x-3
+  }
+
+  .group-hover-transition-right-3 {
+    @apply transition-transform duration-300 ease-in-out group-hover:translate-x-3
+  }
 }

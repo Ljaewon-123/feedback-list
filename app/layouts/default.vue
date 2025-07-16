@@ -1,44 +1,42 @@
 <template>
-  <div>
+  <div class="min-h-screen flex flex-col bg-white dark:bg-[#18181b] text-black dark:text-white">
     <header>
-      <div class="card">
-        <Menubar class="rounded-none!" :model="items">
-          <template #start>
-            hi
-          </template>
-          <template #end>
-            <Avatar 
-              image="https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456" 
-              class="mr-2" 
-              size="small" 
-              shape="circle" 
-              @click="toggle"
-            />
-          </template>
-        </Menubar>
-        <Menu ref="menu" id="overlay_menu" :model="profileItems" :popup="true" >
-          <template #item="{ item, props }">
-            <div v-if="!item.theme" v-ripple class="flex items-center" v-bind="props.action">
+      <Menubar class="rounded-none!" :model="items">
+        <template #start>
+          hi
+        </template>
+        <template #end>
+          <Avatar 
+            image="https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456" 
+            class="mr-2" 
+            size="small" 
+            shape="circle" 
+            @click="toggle"
+          />
+        </template>
+      </Menubar>
+      <Menu ref="menu" id="overlay_menu" :model="profileItems" :popup="true" >
+        <template #item="{ item, props }">
+          <div v-if="!item.theme" v-ripple class="flex items-center" v-bind="props.action">
+            <span :class="item.icon" />
+            <span>{{ item.label }}</span>
+          </div>
+          <div v-else v-ripple class="flex items-center justify-between" v-bind="props.action">
+            <div class="flex items-center">
               <span :class="item.icon" />
               <span>{{ item.label }}</span>
             </div>
-            <div v-else v-ripple class="flex items-center justify-between" v-bind="props.action">
-              <div class="flex items-center">
-                <span :class="item.icon" />
-                <span>{{ item.label }}</span>
-              </div>
-              <span 
-                v-if="item.theme.mode == 'dark' ? isDark : !isDark" 
-                class="w-1.5 h-1.5 rounded-full bg-[#27272a] dark:bg-zinc-100"
-              ></span>
-            </div>
-          </template>
-        </Menu>
-      </div>
+            <span 
+              v-if="item.theme.mode == 'dark' ? isDark : !isDark" 
+              class="w-1.5 h-1.5 rounded-full bg-[#27272a] dark:bg-zinc-100"
+            ></span>
+          </div>
+        </template>
+      </Menu>
     </header>
-    <div class="bg-white dark:bg-[#18181b] h-screen text-black dark:text-white">
+    <main>
       <slot/>
-    </div>
+    </main>
   </div>
 </template>
 
