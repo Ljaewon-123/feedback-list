@@ -19,6 +19,16 @@ export default defineNuxtConfig({
     '@nuxtjs/supabase',
     '@nuxt/image'
   ],
+  pages: {
+    pattern: ['**/*.vue', '!**/components/**']
+  },
+  components: [
+    '~/components', {
+      path: '~/pages',
+      pattern: '**/components/**',
+      pathPrefix: false
+    }
+  ],
   primevue: {
     options: {
       ripple: true,
@@ -33,7 +43,7 @@ export default defineNuxtConfig({
     }
   },
   supabase:{
-    redirect: true,
+    redirect: false,
     redirectOptions: {
       login: '/login',
       callback: '/confirm', 
