@@ -2,12 +2,18 @@
 interface Props {
   title?: string
   subtitle?: string
+  to: string
 }
-const { title = 'Title', subtitle = 'Subtitle' } = defineProps<Props>()
+const { title = 'Title', subtitle = 'Subtitle', to } = defineProps<Props>()
+
+const clickHandler = async () => {
+  if(!to) throw new Error('Define Link URL')
+  await navigateTo(to)
+}
 </script>
 
 <template>
-  <Card class="group cursor-pointer border-2 border-surface hover-bg-clickable">
+  <Card @click="clickHandler" class="group cursor-pointer border-2 border-surface hover-bg-clickable">
     <template #title>
       <div class="flex justify-between flex-shrink truncate text-sm pr-4">
         <span>{{ title }}</span>
