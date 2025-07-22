@@ -29,6 +29,13 @@ export default defineNuxtConfig({
       pathPrefix: false
     }
   ],
+  runtimeConfig: {
+    public: {
+      auth: {
+        redirectTo: '/'
+      }
+    }
+  },
   primevue: {
     options: {
       ripple: true,
