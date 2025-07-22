@@ -36,6 +36,18 @@ export default defineNuxtConfig({
       }
     }
   },
+  security: {
+    headers: {
+      contentSecurityPolicy: {
+        'img-src': [
+          "'self'",
+          "data:",
+          "https://*.githubusercontent.com",
+          "https://*.googleusercontent.com"
+        ]
+      },
+    },
+  },
   primevue: {
     options: {
       ripple: true,
