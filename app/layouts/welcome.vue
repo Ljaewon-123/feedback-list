@@ -30,7 +30,10 @@
                 </div>
               </template>
             </Select>
-            <NuxtLink to="/login" class="font-bold " >
+            <div v-if="isLoggedIn">
+              user avatar
+            </div>
+            <NuxtLink v-else to="/login" class="font-bold " >
               <Button size="small" label="Sign in" icon="pi pi-user" class="cursor-pointer!" variant="outlined" :pt="{
                 root:'hover:ring-2! border-zinc-600! dark:border-gray-500!',
               }" />
@@ -49,13 +52,6 @@ const versions = ref([
   { name: 'V1', code: 'Vsersion 1' },
 ]);
 
-const selectedCity = ref();
-const cities = ref([
-    { name: 'New York', code: 'NY' },
-    { name: 'Rome', code: 'RM' },
-    { name: 'London', code: 'LDN' },
-    { name: 'Istanbul', code: 'IST' },
-    { name: 'Paris', code: 'PRS' }
-]);
+const { isLoggedIn } = useAuth()
 </script>
 

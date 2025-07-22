@@ -3,10 +3,13 @@ export function useAuth() {
   const user = useSupabaseUser()
   const session = useSupabaseSession()
   const redirectInfo = useSupabaseCookieRedirect()
+  const avatarUrl = computed(() => user.value?.user_metadata?.avatar_url ?? '')
 
   return {
+    isLoggedIn: computed(() => !!user.value),
     user,
     session,
-    redirectInfo
+    redirectInfo,
+    avatarUrl
   }
 }
