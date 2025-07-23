@@ -56,7 +56,7 @@ const profileItems = ref([
   <div class="flex items-center">
     <Avatar 
       :image="imageUrl" 
-      class="mr-2" 
+      class="mr-2 cursor-pointer" 
       size="small" 
       shape="circle" 
       @click="toggle"
