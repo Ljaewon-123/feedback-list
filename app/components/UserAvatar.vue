@@ -19,6 +19,11 @@ const toggle = (event: any) => {
 };
 
 const profileItems = ref([
+  {
+    label: 'Account',
+    icon: 'pi pi-user',
+    command: async () => await navigateTo('/account/user')
+  },
   { separator: true },
   {
     label: 'Theme',
@@ -48,7 +53,7 @@ const profileItems = ref([
 </script>
 
 <template>
-  <div>
+  <div class="flex items-center">
     <Avatar 
       :image="imageUrl" 
       class="mr-2" 

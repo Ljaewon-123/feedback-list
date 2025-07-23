@@ -30,9 +30,9 @@
                 </div>
               </template>
             </Select>
-            <div v-if="isLoggedIn">
-              user avatar
-            </div>
+            <UserAvatar v-if="isLoggedIn"
+              :image-url="avatarUrl"
+            />
             <NuxtLink v-else to="/login" class="font-bold " >
               <Button size="small" label="Sign in" icon="pi pi-user" class="cursor-pointer!" variant="outlined" :pt="{
                 root:'hover:ring-2! border-zinc-600! dark:border-gray-500!',
@@ -51,7 +51,6 @@ const version = ref({ name: 'V1', code: 'Vsersion 1' });
 const versions = ref([
   { name: 'V1', code: 'Vsersion 1' },
 ]);
-
-const { isLoggedIn } = useAuth()
+const { isLoggedIn, avatarUrl } = useAuth();
 </script>
 

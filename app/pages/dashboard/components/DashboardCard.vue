@@ -15,7 +15,7 @@ const clickHandler = async () => {
 <template>
   <Card @click="clickHandler" class="group cursor-pointer border-2 border-surface hover-bg-clickable">
     <template #title>
-      <div class="flex justify-between flex-shrink truncate text-sm pr-4">
+      <div class="flex justify-between flex-shrink truncate text-sm overflow-visible">
         <span>{{ title }}</span>
         <span class="group-hover-transition-right-3">
           <i class="pi pi-angle-right" style="font-size: 1.5rem"></i>
@@ -23,7 +23,7 @@ const clickHandler = async () => {
       </div>
     </template>
     <template #subtitle>
-      <div class="flex-shrink truncate text-sm pr-4">
+      <div class="flex-shrink truncate text-sm">
         {{ subtitle }}
       </div>
     </template>
