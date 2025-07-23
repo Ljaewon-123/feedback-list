@@ -1,5 +1,5 @@
 <template>
-  <div class="relative mx-auto my-10 max-w-2xl">
+  <div class="relative mx-auto my-10 max-w-2xl px-2 md:px-0">
     <Form :resolver @submit="onFormSubmit">
       <Card class="border-2 border-surface dark:bg-zinc-800!">
         <template #title >
