@@ -12,17 +12,31 @@
           <Divider />
         </template>
         <template #content>
-          <div 
-            v-for="item, index in formItems" 
-            :key="`${item.title}` + index"
+          <div
+            v-for="(item, index) in formItems"
+            :key="item.title + index"
             class="relative text-sm flex flex-col gap-2 md:grid md:grid-cols-12"
-            :class="{ 'border-t border-surface-200 dark:border-surface-700 py-4': index > 0, 'pb-4' : index===0 }"
+            :class="{
+              'border-t border-surface-200 dark:border-surface-700 py-4': index > 0,
+              'pb-4': index === 0
+            }"
+            v-memo="[formData[item.modelKey]]"
           >
             <div class="transition-all duration-500 ease-in-out col-span-4 flex flex-col gap-2">
               {{ item.title }}
             </div>
             <div class="transition-all duration-500 ease-in-out order-1 col-span-8">
-              <component :is="item.render()" />
+              <component
+                :is="item.component"
+                v-bind="item.props"
+                v-if="item.modelKey"
+                v-model="formData[item.modelKey]"
+              />
+              <component
+                :is="item.component"
+                v-bind="item.props"
+                v-else
+              />
             </div>
           </div>
           <!-- 사실상 제일 쉬운방법 -->
@@ -55,8 +69,20 @@
 import { zodResolver } from '@primevue/forms/resolvers/zod';
 import { z } from 'zod';
 
+type FormDataType = {
+  projectName: string
+  description: string
+  isPrivate: boolean
+  password: string
+}
+type FormItem = {
+  title: string
+  component: string
+  modelKey: keyof FormDataType
+  props?: Record<string, any>
+}
 // 폼 데이터
-const formData = ref({
+const formData = ref<FormDataType>({
   projectName: '',
   description: '',
   isPrivate: false,
@@ -64,40 +90,34 @@ const formData = ref({
 })
 const isVisablePassword = computed(() => formData.value.isPrivate)
 
-// h 렌더 함수를 사용한 폼 아이템 설정
-const formItems = [
+const formItems: FormItem[] = [
   {
     title: 'Project name',
-    render: () => h(resolveComponent('InputText'), {
-      modelValue: formData.value.projectName,
-      'onUpdate:modelValue': (value: string) => formData.value.projectName = value,
+    component: 'InputText',
+    modelKey: 'projectName',
+    props: {
       type: 'text',
       placeholder: 'Project name',
       size: 'small',
       fluid: true
-    })
+    }
   },
   {
     title: 'Description',
-    render: () => h(resolveComponent('Textarea'), {
-      modelValue: formData.value.description,
-      'onUpdate:modelValue': (value: string) => formData.value.description = value,
+    component: 'Textarea',
+    modelKey: 'description',
+    props: {
       rows: 2,
       fluid: true
-    })
+    }
   },
   {
     title: 'Private?',
-    render: () => h(resolveComponent('ToggleSwitch'), {
-      modelValue: formData.value.isPrivate,
-      'onUpdate:modelValue': (value: boolean) => formData.value.isPrivate = value
-    })
-  },
-    {
-    title: 'A?',
-    render: () => h(resolveComponent('A'))
+    component: 'ToggleSwitch',
+    modelKey: 'isPrivate'
   }
-]
+];
+
 const toast = useToast();
 const resolver = zodResolver(
   z
