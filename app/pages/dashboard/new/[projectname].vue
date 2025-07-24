@@ -12,36 +12,30 @@
           <Divider />
         </template>
         <template #content>
-          <div class="relative text-sm flex flex-col gap-2 md:grid md:grid-cols-12" >
+          <div 
+            v-for="item, index in formItems" 
+            :key="`${item.title}` + index"
+            class="relative text-sm flex flex-col gap-2 md:grid md:grid-cols-12"
+            :class="{ 'border-t border-surface-200 dark:border-surface-700 py-4': index > 0, 'pb-4' : index===0 }"
+          >
             <div class="transition-all duration-500 ease-in-out col-span-4 flex flex-col gap-2">
-              Project name
+              {{ item.title }}
             </div>
             <div class="transition-all duration-500 ease-in-out order-1 col-span-8">
-              name content
+              <component :is="item.render()" />
             </div>
           </div>
-          <div class="relative text-sm flex flex-col gap-2 md:grid md:grid-cols-12" :class="{ 'border-t border-surface-200 dark:border-surface-700': true }">
+          <!-- 사실상 제일 쉬운방법 -->
+          <div 
+            v-if="isVisablePassword"
+            class="relative text-sm flex flex-col gap-2 md:grid md:grid-cols-12" 
+            :class="{ 'border-t border-surface-200 dark:border-surface-700 py-4': true }"
+          >
             <div class="transition-all duration-500 ease-in-out col-span-4 flex flex-col gap-2">
-              Description
+              Password
             </div>
             <div class="transition-all duration-500 ease-in-out order-1 col-span-8">
-              description content
-            </div>
-          </div>
-          <div class="relative text-sm flex flex-col gap-2 md:grid md:grid-cols-12">
-            <div class="transition-all duration-500 ease-in-out col-span-4 flex flex-col gap-2">
-              Private?
-            </div>
-            <div class="transition-all duration-500 ease-in-out order-1 col-span-8">
-              Private content
-            </div>
-          </div>
-          <div class="relative text-sm flex flex-col gap-2 md:grid md:grid-cols-12">
-            <div class="transition-all duration-500 ease-in-out col-span-4 flex flex-col gap-2">
-              if need password
-            </div>
-            <div class="transition-all duration-500 ease-in-out order-1 col-span-8">
-              password content
+              <Password type="text" placeholder="Password" :feedback="false" toggleMask fluid />
             </div>
           </div>
         </template>
@@ -61,6 +55,49 @@
 import { zodResolver } from '@primevue/forms/resolvers/zod';
 import { z } from 'zod';
 
+// 폼 데이터
+const formData = ref({
+  projectName: '',
+  description: '',
+  isPrivate: false,
+  password: ''
+})
+const isVisablePassword = computed(() => formData.value.isPrivate)
+
+// h 렌더 함수를 사용한 폼 아이템 설정
+const formItems = [
+  {
+    title: 'Project name',
+    render: () => h(resolveComponent('InputText'), {
+      modelValue: formData.value.projectName,
+      'onUpdate:modelValue': (value: string) => formData.value.projectName = value,
+      type: 'text',
+      placeholder: 'Project name',
+      size: 'small',
+      fluid: true
+    })
+  },
+  {
+    title: 'Description',
+    render: () => h(resolveComponent('Textarea'), {
+      modelValue: formData.value.description,
+      'onUpdate:modelValue': (value: string) => formData.value.description = value,
+      rows: 2,
+      fluid: true
+    })
+  },
+  {
+    title: 'Private?',
+    render: () => h(resolveComponent('ToggleSwitch'), {
+      modelValue: formData.value.isPrivate,
+      'onUpdate:modelValue': (value: boolean) => formData.value.isPrivate = value
+    })
+  },
+    {
+    title: 'A?',
+    render: () => h(resolveComponent('A'))
+  }
+]
 const toast = useToast();
 const resolver = zodResolver(
   z

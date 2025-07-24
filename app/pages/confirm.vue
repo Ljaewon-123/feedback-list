@@ -1,4 +1,7 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: false
+})
 const { user } = useAuth()
 
 watch(user, () => {
