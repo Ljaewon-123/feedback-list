@@ -3,7 +3,8 @@
     <Form :resolver @submit="onFormSubmit">
       <Card class="border-2 border-surface dark:bg-zinc-800!">
         <template #title >
-          Create a new project</template>
+          Create a new project
+        </template>
         <template #subtitle>
           <p class="m-0">
             Your project will have its own dedicated instance and full Postgres database.
