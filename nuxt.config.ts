@@ -14,6 +14,7 @@ export default defineNuxtConfig({
   css: [
     '~/assets/styles/main.css',
     '~/assets/styles/inspira.css',
+    "@milkdown/theme-nord/style.css",
   ],
   modules: [
     '@nuxt/fonts',

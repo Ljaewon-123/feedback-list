@@ -10,6 +10,10 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@milkdown/crepe": "^7.15.2",
+    "@milkdown/kit": "^7.15.2",
+    "@milkdown/theme-nord": "^7.15.2",
+    "@milkdown/vue": "^7.15.2",
     "@nuxtjs/supabase": "^1.5.3",
     "@primeuix/themes": "^1.1.2",
     "@primevue/forms": "^4.3.5",
