@@ -37,7 +37,6 @@
                 v-bind="item.props"
                 v-else
               />
-              <Message v-if="$form.projectName?.invalid" severity="error" size="small" variant="simple">{{ $form.projectName.error.message }}</Message>
             </div>
           </div>
           <!-- 사실상 제일 쉬운방법 -->
@@ -145,8 +144,7 @@ const resolver = zodResolver(
 );
 
 
-const onFormSubmit = ({ valid }: { valid: boolean }) => {
-  console.log(valid, '???')
+const onFormSubmit = ({ valid, values }: { valid: boolean, values: any }) => {
   if (valid) {
     toast.add({ severity: 'success', summary: 'Form is submitted.', life: 3000 });
   }
