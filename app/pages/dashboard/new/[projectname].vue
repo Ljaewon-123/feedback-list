@@ -1,6 +1,6 @@
 <template>
   <div class="relative mx-auto my-10 max-w-2xl px-2 md:px-0">
-    <Form v-slot="$form" :initialValues="formData" :resolver="resolver" @submit="onFormSubmit">
+    <Form v-slot="$form" :initialValues="formData" :resolver @submit="onFormSubmit">
       <Card class="border-2 border-surface dark:bg-zinc-800!">
         <template #title >
           Create a new project
