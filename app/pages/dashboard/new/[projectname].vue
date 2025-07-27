@@ -1,6 +1,6 @@
 <template>
   <div class="relative mx-auto my-10 max-w-2xl px-2 md:px-0">
-    <Form :resolver @submit="onFormSubmit">
+    <Form v-slot="$form" :initialValues="formData" :resolver="resolver" @submit="onFormSubmit">
       <Card class="border-2 border-surface dark:bg-zinc-800!">
         <template #title >
           Create a new project
@@ -21,7 +21,6 @@
               'border-t border-surface-200 dark:border-surface-700 py-4': index > 0,
               'pb-4': index === 0
             }"
-            v-memo="[formData[item.modelKey]]"
           >
             <div class="transition-all duration-500 ease-in-out col-span-4 flex flex-col gap-2">
               {{ item.title }}
@@ -38,6 +37,7 @@
                 v-bind="item.props"
                 v-else
               />
+              <Message v-if="$form.projectName?.invalid" severity="error" size="small" variant="simple">{{ $form.projectName.error.message }}</Message>
             </div>
           </div>
           <!-- 사실상 제일 쉬운방법 -->
@@ -120,30 +120,33 @@ const formItems: FormItem[] = [
 ];
 
 const toast = useToast();
+
 const resolver = zodResolver(
   z
-  .object({
-    projectName: z.string().min(1, { message: 'Project name is required.' }),
-    description: z.string().optional(),
-    private: z.boolean(),
-    password: z
-      .string()
-      .min(4, { message: 'Password must be at least 4 characters.' })
-      .max(16, { message: 'Password must be at most 16 characters.' })
-      .optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (data.private && !data.password) {
-      ctx.addIssue({
-        path: ['password'],
-        code: z.ZodIssueCode.custom,
-        message: 'Password is required when private is true.',
-      })
-    }
-  })
+    .object({
+      projectName: z.string().min(1, { message: 'Project name is required.' }),
+      description: z.string().optional(),
+      isPrivate: z.boolean(),
+      password: z
+        .string()
+        .min(4, { message: 'Password must be at least 4 characters.' })
+        .max(16, { message: 'Password must be at most 16 characters.' })
+        .optional(),
+    })
+    .superRefine((data, ctx) => {
+      if (data.isPrivate && !data.password) {
+        ctx.addIssue({
+          path: ['password'],
+          code: z.ZodIssueCode.custom,
+          message: 'Password is required when private is true.',
+        });
+      }
+    })
 );
 
+
 const onFormSubmit = ({ valid }: { valid: boolean }) => {
+  console.log(valid, '???')
   if (valid) {
     toast.add({ severity: 'success', summary: 'Form is submitted.', life: 3000 });
   }

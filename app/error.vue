@@ -7,8 +7,8 @@ const props = defineProps({
 })
 
 const statusCode = computed(() => props.error?.statusCode)
-const message = "Page Not Found"//computed(() => props.error?.message)
-
+const message = computed(() => props.error?.message)
+console.error(props.error)
 </script>
 
 <template>
@@ -33,7 +33,7 @@ const message = "Page Not Found"//computed(() => props.error?.message)
         >
           Go back home
         </NuxtLink>
-        <NuxtLink href="/document" class="text-sm font-semibold text-gray-900 dark:text-gray-200">
+        <NuxtLink href="/" class="text-sm font-semibold text-gray-900 dark:text-gray-200">
           Contact support <span aria-hidden="true">→</span>
         </NuxtLink>
       </div>
