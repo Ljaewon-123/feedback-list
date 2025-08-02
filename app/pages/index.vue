@@ -56,7 +56,7 @@ const routeHanlder = async() => {
           class="relative flex h-fit w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background p-px md:shadow-xl"
         >
           <img
-            src="public/favicon.ico"
+            src="/favicon.ico"
             class="w-full rounded-md"
           />
           <UiBorderBeam
