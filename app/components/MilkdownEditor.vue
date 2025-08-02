@@ -13,12 +13,17 @@ import {
   codeBlockComponent,
   codeBlockConfig,
 } from '@milkdown/components/code-block'
+import { languages } from '@codemirror/language-data';
 import { Milkdown, useEditor } from '@milkdown/vue';
 import { defaultValueCtx, Editor, rootCtx } from '@milkdown/kit/core';
 import { nord } from '@milkdown/theme-nord'
 import { commonmark, linkSchema } from '@milkdown/kit/preset/commonmark'
 import { imageBlockComponent } from '@milkdown/kit/component/image-block'
 import { gfm } from '@milkdown/kit/preset/gfm'
+import { basicSetup } from 'codemirror';
+import { oneDark } from '@codemirror/theme-one-dark';
+import { keymap } from '@codemirror/view';
+import { defaultKeymap } from '@codemirror/commands';
 
 const markdown =
 `# Milkdown Nuxt Commonmark
@@ -75,6 +80,8 @@ table
 
 `
 
+const toast = useToast();
+
 useEditor((root) => {
   return Editor.make()
     .config(nord)
@@ -82,6 +89,20 @@ useEditor((root) => {
       ctx.set(rootCtx, root)
       ctx.set(defaultValueCtx, markdown),
       configureLinkTooltip(ctx)
+    })
+    .config(ctx => {
+      ctx.update(codeBlockConfig.key, (defaultConfig) => ({
+        ...defaultConfig,
+        copyIcon: '📄',
+        copyText: 'Copy code',
+        languages,
+        extensions: [basicSetup, oneDark, keymap.of(defaultKeymap)],
+        previewToggleButton: (previewOnlyMode) =>
+          previewOnlyMode ? 'Show code' : 'Hide code',
+        onCopy: (text) => {
+          toast.add({ severity: 'success', summary: 'Copied!', detail: 'Copied Success', life: 3000 });
+        },
+      }))
     })
     .use(commonmark)
     .use(imageBlockComponent)
