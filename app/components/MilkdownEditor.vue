@@ -3,6 +3,8 @@ import {
   configureLinkTooltip,
   linkTooltipPlugin,
   linkTooltipConfig,
+  linkTooltipState,
+  linkTooltipAPI,
 } from '@milkdown/components/link-tooltip'
 import {
   listItemBlockComponent,
@@ -15,7 +17,7 @@ import {
 } from '@milkdown/components/code-block'
 import { languages } from '@codemirror/language-data';
 import { Milkdown, useEditor } from '@milkdown/vue';
-import { defaultValueCtx, Editor, rootCtx } from '@milkdown/kit/core';
+import { defaultValueCtx, Editor, editorViewCtx, rootCtx } from '@milkdown/kit/core';
 import { nord } from '@milkdown/theme-nord'
 import { commonmark, linkSchema } from '@milkdown/kit/preset/commonmark'
 import { imageBlockComponent } from '@milkdown/kit/component/image-block'
@@ -24,6 +26,7 @@ import { basicSetup } from 'codemirror';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { keymap } from '@codemirror/view';
 import { defaultKeymap } from '@codemirror/commands';
+import { Ctx } from "@milkdown/kit/ctx";
 
 const markdown =
 `# Milkdown Nuxt Commonmark
@@ -48,35 +51,15 @@ Editor
   .create();
 \`\`\`
 
-이건 리스트 
-
-- [ ] Todo list item 1
-    - [ ] Todo List item 1.1
-    - [ ] Todo List item 1.2
-- [ ] Todo list item 2
-  1. List item 1
-     1. List item 1.1
-     2. List item 1.2
-  2. List item 2
-  3. List item 3
-- [ ] Todo list item 3
-  - List item 1
-    - List item 1.1
-    - List item 1.2
-- List item 2
-- List item 3
-
-image?
-![]()
-
-
-table
+??
+This is a demo for using [Milkdown](https://milkdown.dev) link tooltip component
 
 | Fruit | Animal | Vegetable |
 | ----- | :----: | --------: |
 | Apple | Cat    | Carrot    |
 | Banana| Dog    | Cabbage   |
 | Cherry| Horse  | Celery    |
+
 
 `
 
@@ -87,15 +70,15 @@ useEditor((root) => {
     .config(nord)
     .config((ctx) => {
       ctx.set(rootCtx, root)
-      ctx.set(defaultValueCtx, markdown),
-      configureLinkTooltip(ctx)
+      ctx.set(defaultValueCtx, markdown)
     })
     .config(ctx => {
       ctx.update(codeBlockConfig.key, (defaultConfig) => ({
         ...defaultConfig,
-        copyIcon: '📄',
-        copyText: 'Copy code',
+        copyIcon: '',
+        copyText: 'Copy',
         languages,
+        expandIcon: '',
         extensions: [basicSetup, oneDark, keymap.of(defaultKeymap)],
         previewToggleButton: (previewOnlyMode) =>
           previewOnlyMode ? 'Show code' : 'Hide code',
@@ -106,7 +89,6 @@ useEditor((root) => {
     })
     .use(commonmark)
     .use(imageBlockComponent)
-    .use(linkTooltipPlugin)
     .use(gfm)
     .use(listItemBlockComponent)
     .use(tableBlock)
@@ -115,5 +97,30 @@ useEditor((root) => {
 </script>
 
 <template>
-  <Milkdown />
+  <Milkdown class="milkdown" />
 </template>
+
+<style>
+.milkdown .tools{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 16px 4px 16px;
+  background-color: #282c34;
+  color: var(--background);
+}
+.milkdown .copy-button {
+  display: none; /* 기본적으로 숨김 */
+  width: 50px;
+  padding: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  border-radius: 100px;
+  border: 1px solid white;
+}
+
+.milkdown .milkdown-code-block:hover .copy-button {
+  display: inline-block; /* 또는 flex, block 등 상황에 맞게 */
+}
+</style>
