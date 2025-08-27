@@ -28,7 +28,7 @@ const clickHandler = async () => {
       </div>
     </template>
     <template #content>
-      <p class="m-0">
+      <p class="m-0 text-xs">
         <slot name="content">content</slot>
       </p>
     </template>

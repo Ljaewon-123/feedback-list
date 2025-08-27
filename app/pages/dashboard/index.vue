@@ -37,12 +37,13 @@ const projects = computed(() => projectsSupbase.value?.data)
       <li v-for="project in projects" :key="project.id" >
         <DashboardCard :title="project.project_name" :subtitle="project.description" :to="`/dashboard/project/${project.project_name}`">
           <template #content>
-            <div>
+            <div class="flex justify-between items-center">
               <NuxtTime
                 :datetime="project.created_at"
                 relative
                 locale="ko-KR"
               />
+              <span v-if="project.is_private" v-tooltip="'Enter your password'" class="pi pi-key"></span>
             </div>
           </template>
         </DashboardCard>
