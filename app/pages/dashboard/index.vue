@@ -1,9 +1,27 @@
 <script setup lang="ts">
+import type { PostgrestSingleResponse } from '@supabase/postgrest-js'
 
+type Project = {
+  id: number 
+  created_at: string
+  project_name: string
+  description: string
+  is_private: boolean
+  password: string
+  user_id: string
+}
+const supabase = useSupabaseClient<Project>()
+const { data: projectsSupbase } = await useAsyncData<PostgrestSingleResponse<Project[]>>('supabase.projects', async () => {
+  return await supabase
+  .from('project')
+  .select();
+}, { server: false })
+const projects = computed(() => projectsSupbase.value?.data)
 </script>
 
 <template>
   <div class="mx-auto w-full max-w-[1200px] px-4 @lg:px-6 @xl:px-12 @2xl:px-20 @3xl:px-24 my-8 flex flex-col gap-8">
+    {{ projects }}
     <div class="flex gap-4">
       <NuxtLink to="/dashboard/new/new-project">
         <Button size="small" variant="outlined">
@@ -16,16 +34,18 @@
       </IconField>
     </div>
     <ul class="grid grid-cols-1 gap-2 md:gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-      <li class="w-full">
-        <DashboardCard to="/dashboard/project/hello-world">
-          <template #content>hi</template>
+      <li v-for="project in projects" :key="project.id" >
+        <DashboardCard :title="project.project_name" :subtitle="project.description" :to="`/dashboard/project/${project.project_name}`">
+          <template #content>
+            <div>
+              <NuxtTime
+                :datetime="project.created_at"
+                relative
+                locale="ko-KR"
+              />
+            </div>
+          </template>
         </DashboardCard>
-      </li>
-      <li>
-        <DashboardCard to="/"/>
-      </li>
-      <li>
-        <DashboardCard to="/"/>
       </li>
     </ul>
   </div>
