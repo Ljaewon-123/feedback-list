@@ -1,15 +1,9 @@
 <template>
   <div>
-    <div>
-      <Button size="small" variant="outlined">
-        Delete
-      </Button>
-      <Button size="small" variant="outlined">
-        Edit
-      </Button>
-      <Button size="small" variant="outlined">
-        Share
-      </Button>
+    <div >
+      <Button size="small" label="Delete" icon="pi pi-trash" variant="outlined" severity="danger" />
+      <Button size="small" label="Edit" icon="pi pi-file-edit" variant="outlined" />
+      <Button size="small" label="Share" icon="pi pi-share-alt" variant="outlined" />
     </div>
     <div>
       <MilkdownEditorWrapper/>
