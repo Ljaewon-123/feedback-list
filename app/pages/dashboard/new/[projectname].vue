@@ -26,17 +26,21 @@
               {{ item.title }}
             </div>
             <div class="transition-all duration-500 ease-in-out order-1 col-span-8">
-              <component
-                :is="item.component"
-                v-bind="item.props"
-                v-if="item.modelKey"
-                v-model="formData[item.modelKey]"
-              />
-              <component
-                :is="item.component"
-                v-bind="item.props"
-                v-else
-              />
+              <FormField v-slot="$field" v-if="item.modelKey" :name="item.modelKey" class="flex flex-col gap-1">
+                <component
+                  :is="item.component"
+                  v-bind="item.props"
+                  v-model="formData[item.modelKey]"
+                />
+                <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">{{ $field.error?.message }}</Message>
+              </FormField>
+              <FormField v-slot="$field" v-else :name="item.modelKey" class="flex flex-col gap-1">
+                <component
+                  :is="item.component"
+                  v-bind="item.props"
+                />
+                <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">{{ $field.error?.message }}</Message>
+              </FormField>
             </div>
           </div>
           <!-- 사실상 제일 쉬운방법 -->
@@ -49,7 +53,10 @@
               Password
             </div>
             <div class="transition-all duration-500 ease-in-out order-1 col-span-8">
-              <Password type="text" placeholder="Password" :feedback="false" toggleMask fluid />
+              <FormField v-slot="$field" name="password" class="flex flex-col gap-1">
+                <Password type="text" placeholder="Password" :feedback="false" toggleMask fluid />
+                <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">{{ $field.error?.message }}</Message>
+              </FormField>
             </div>
           </div>
         </template>
@@ -68,12 +75,13 @@
 <script setup lang="ts">
 import { zodResolver } from '@primevue/forms/resolvers/zod';
 import { z } from 'zod';
+import type { Project } from '../index.vue';
 
 type FormDataType = {
   projectName: string
   description: string
   isPrivate: boolean
-  password: string
+  password: string | null
 }
 type FormItem = {
   title: string
@@ -86,7 +94,7 @@ const formData = ref<FormDataType>({
   projectName: '',
   description: '',
   isPrivate: false,
-  password: ''
+  password: null
 })
 const isVisablePassword = computed(() => formData.value.isPrivate)
 
@@ -130,7 +138,7 @@ const resolver = zodResolver(
         .string()
         .min(4, { message: 'Password must be at least 4 characters.' })
         .max(16, { message: 'Password must be at most 16 characters.' })
-        .optional(),
+        .nullable()
     })
     .superRefine((data, ctx) => {
       if (data.isPrivate && !data.password) {
@@ -138,15 +146,34 @@ const resolver = zodResolver(
           path: ['password'],
           code: z.ZodIssueCode.custom,
           message: 'Password is required when private is true.',
-        });
+        })
       }
     })
 );
 
-
-const onFormSubmit = ({ valid, values }: { valid: boolean, values: any }) => {
+const supabase = useSupabaseClient<Project>()
+const user = useSupabaseUser()
+const onFormSubmit = async ({ valid }: { valid: boolean }) => {
   if (valid) {
-    toast.add({ severity: 'success', summary: 'Form is submitted.', life: 3000 });
+    try {
+      const { projectName, description, isPrivate, password } = formData.value
+      await supabase
+        .from('project')
+        .insert([
+          { 
+            project_name: projectName,
+            description: description,
+            is_private: isPrivate,
+            password: password,
+            user_id: user.value?.id
+          }
+        ])
+      toast.add({ severity: 'success', summary: 'Created new project.', life: 3000 });
+      await navigateTo('/dashboard')
+    } catch (error) {
+      console.error(error)
+      toast.add({ severity: 'error', summary: 'Error new porject.', life: 3000 });
+    }
   }
 };
 </script>

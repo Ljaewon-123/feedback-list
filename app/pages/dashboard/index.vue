@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { PostgrestSingleResponse } from '@supabase/postgrest-js'
 
-type Project = {
+// ...? export 되네??
+export type Project = {
   id: number 
   created_at: string
   project_name: string
