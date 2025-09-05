@@ -22,7 +22,6 @@ const projects = computed(() => projectsSupbase.value?.data)
 
 <template>
   <div class="mx-auto w-full max-w-[1200px] px-4 @lg:px-6 @xl:px-12 @2xl:px-20 @3xl:px-24 my-8 flex flex-col gap-8">
-    {{ projects }}
     <div class="flex gap-4">
       <NuxtLink to="/dashboard/new/new-project">
         <Button size="small" variant="outlined">
@@ -36,7 +35,7 @@ const projects = computed(() => projectsSupbase.value?.data)
     </div>
     <ul class="grid grid-cols-1 gap-2 md:gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
       <li v-for="project in projects" :key="project.id" >
-        <DashboardCard :title="project.project_name" :subtitle="project.description" :to="`/dashboard/project/${project.project_name}`">
+        <DashboardCard :title="project.project_name" :subtitle="project.description" :to="`/dashboard/project/${project.project_name}/list`">
           <template #content>
             <div class="flex justify-between items-center">
               <NuxtTime
