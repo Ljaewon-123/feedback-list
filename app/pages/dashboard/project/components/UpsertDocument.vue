@@ -90,7 +90,6 @@ const onFormSubmit = async () => {
 <template>
   <Dialog v-model:visible="visible" modal header="New Document" :style="{ width: '32rem' }">
       <template #header>
-        {{ documentId }}
           <div class="inline-flex items-center justify-center gap-2">
               <Avatar :image="avatarUrl" shape="circle" />
               <span class="font-bold whitespace-nowrap">{{ route.params.name }}</span>
