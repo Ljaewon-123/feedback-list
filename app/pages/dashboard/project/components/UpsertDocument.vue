@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import z from 'zod'
 
-type DocumentMeta = {
-    name: string
-    tag: string[]
-    description: string
+export type DocumentMeta = {
+  id: number
+  updated_at: Date
+  created_at: Date
+  name: string
+  tag: string[]
+  description: string
 }
 const documentMetaSchema = z.object({
     name: z.string().min(1, 'Name is required'),
-    description: z.string().min(1, 'Description is required'),
+    description: z.string().optional(),
     tag: z.string().refine(val =>
     val.split(',').every(tag => /^[a-zA-Z0-9-_ ]+$/.test(tag.trim())),
 			{
@@ -16,7 +19,10 @@ const documentMetaSchema = z.object({
 			}
     )
 })
-
+const { refresh } = defineProps<{
+  document?: Partial<DocumentMeta> 
+  refresh: Function
+}>()
 const visible = defineModel('visible', { default: false });
 const { avatarUrl } = useAuth();
 const supabase = useSupabaseClient<DocumentMeta>()
@@ -45,6 +51,7 @@ const onFormSubmit = async () => {
       ])
 
     toast.add({ severity: 'success', summary: 'Created new document.', life: 3000 })
+    await refresh()
     // await navigateTo('/dashboard')
   } catch (error: any) {
     console.error(error)
