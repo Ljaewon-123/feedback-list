@@ -5,7 +5,7 @@ export type DocumentMeta = {
   id: number
   updated_at: Date
   created_at: Date
-  name: string
+  docs_name: string
   tag: string[]
   description: string
 }
@@ -19,36 +19,55 @@ const documentMetaSchema = z.object({
 			}
     )
 })
-const { refresh } = defineProps<{
+const { document, refresh } = defineProps<{
   document?: Partial<DocumentMeta> 
   refresh: Function
 }>()
+const formDucs = ref({
+  name: document?.docs_name ?? '',
+  description: document?.description ?? '',
+  tag: document?.tag?.join(',') ?? '', // string[] → string
+})
+watch(
+  () => document,
+  (newDoc) => {
+    formDucs.value = {
+      name: newDoc?.docs_name ?? '',
+      description: newDoc?.description ?? '',
+      tag: newDoc?.tag?.join(',') ?? ''
+    }
+  },
+  { deep: true } // immediate: 마운트 시 바로 적용
+)
+const documentId = computed(() => document?.id ?? null)
 const visible = defineModel('visible', { default: false });
 const { avatarUrl } = useAuth();
 const supabase = useSupabaseClient<DocumentMeta>()
 const toast = useToast();
 const route = useRoute()
-const formDucs = ref({
-    name: '',
-    description: '',
-    tag: '',
-})
 
 const onFormSubmit = async () => {
 	try {
     // Zod 유효성 검사
     const validated = documentMetaSchema.parse(formDucs.value)
-
+    const payload = {
+      docs_name: validated.name,
+      description: validated.description,
+      tag: validated.tag.split(',').map(tag => tag.trim()) // string[]로 변환
+    }
     // Supabase에 저장
-    await supabase
-      .from('document_meta')
-      .insert([
-        {
-          docs_name: validated.name,
-          description: validated.description,
-          tag: validated.tag.split(',').map(tag => tag.trim()) // string[]로 변환
-        }
-      ])
+    if(documentId.value) {
+      const res = await supabase
+        .from('document_meta')
+        .update(payload)
+        .eq('id', documentId.value)
+    } else {
+      await supabase
+        .from('document_meta')
+        .insert([
+          payload
+        ])
+    }
 
     toast.add({ severity: 'success', summary: 'Created new document.', life: 3000 })
     await refresh()
@@ -71,6 +90,7 @@ const onFormSubmit = async () => {
 <template>
   <Dialog v-model:visible="visible" modal header="New Document" :style="{ width: '32rem' }">
       <template #header>
+        {{ documentId }}
           <div class="inline-flex items-center justify-center gap-2">
               <Avatar :image="avatarUrl" shape="circle" />
               <span class="font-bold whitespace-nowrap">{{ route.params.name }}</span>

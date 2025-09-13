@@ -10,7 +10,6 @@
       </IconField>
     </div>
     <div class="card">
-      {{ docses }}
       <DataTable :value="docses?.data" tableStyle="min-width: 50rem">
         <Column field="id" header="Id"></Column>
         <Column field="docs_name" header="Name"></Column>
@@ -21,6 +20,7 @@
             </span>
           </template>
         </Column>
+        <Column field="description" header="Description" class="truncate" />
         <Column field="updated_at" header="UpdatedAt">
           <template #body="slotProps">
             <NuxtTime 
@@ -42,27 +42,9 @@
       </DataTable>
     </div>
   </div>
-  <UpsertDocument v-model:visible="visible" :refresh="refresh" />
+  <UpsertDocument v-model:visible="visible" :document="currentData" :refresh="refresh" />
 </template>
 
-    <!-- if (documentId.value) {
-      // ✅ UPDATE
-      result = await supabase
-        .from('document_meta')
-        .update(payload)
-        .eq('id', documentId.value)
-    } else {
-      // ✅ INSERT
-      result = await supabase
-        .from('document_meta')
-        .insert([payload])
-    }
-const formDucs = ref({
-  name: props.document?.name ?? '',
-  description: props.document?.description ?? '',
-  tag: props.document?.tag?.join(',') ?? '', // string[] → string
-})
-const documentId = computed(() => props.document?.id ?? null) -->
 <script setup lang="ts">
 import type { DocumentMeta } from '../components/UpsertDocument.vue';
 import type { PostgrestSingleResponse } from '@supabase/postgrest-js'
@@ -87,7 +69,7 @@ const items = ref([
         label: 'Update',
         icon: 'pi pi-user-edit',
         command: async () => {
-          
+          visibleUpsertDocumentDialog()
         }
       },
       {
