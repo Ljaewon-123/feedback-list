@@ -10,7 +10,7 @@
       </IconField>
     </div>
     <div class="card">
-      <DataTable :value="docses?.data" tableStyle="min-width: 50rem">
+      <DataTable @rowSelect="clickRow" :value="docses?.data" tableStyle="min-width: 50rem" selectionMode="single">
         <Column field="id" header="Id"></Column>
         <Column field="docs_name" header="Name"></Column>
         <Column field="tag" header="Tag">
@@ -98,6 +98,11 @@ const toggle = (data: any, event: any, ) => {
   currentData.value = data
   menu.value.toggle(event);
 };
+
+const clickRow = async (evt: any) => {
+  console.log(evt)
+  await navigateTo(`docs-${evt.data.id}`)
+}
 
 const showTemplate = () => {
     confirm.require({
