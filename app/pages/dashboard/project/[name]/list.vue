@@ -101,7 +101,7 @@ const toggle = (data: any, event: any, ) => {
 
 const clickRow = async (evt: any) => {
   console.log(evt)
-  await navigateTo(`docs-${evt.data.id}`)
+  await navigateTo(`/dashboard/project/docs-${evt.data.id}`)
 }
 
 const showTemplate = () => {
