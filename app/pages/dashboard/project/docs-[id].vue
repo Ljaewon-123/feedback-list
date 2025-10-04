@@ -2,7 +2,7 @@
   <div class="container-layout">
     <div class="flex gap-4">
       <Button @click="upsertDocs" size="small" label="Edit" icon="pi pi-file-edit" variant="outlined" />
-      <Button @click="share" size="small" label="Share" icon="pi pi-share-alt" variant="outlined" />
+      <Button @click="sharePublicLink(toast)" size="small" label="Share" icon="pi pi-share-alt" variant="outlined" />
     </div>
     <div>
       <MilkdownEditorWrapper v-model:md="docsContent"/>
@@ -68,10 +68,6 @@ async function getDocument () {
   }
 
   return data?.content || `# Write your **markdown** here!`
-}
-
-const share = () => {
-  return 'Sharing Devolping...'
 }
 
 </script>
