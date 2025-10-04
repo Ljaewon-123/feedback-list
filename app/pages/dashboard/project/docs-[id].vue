@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-layout">
     <div >
       <Button size="small" label="Delete" icon="pi pi-trash" variant="outlined" severity="danger" />
       <Button size="small" label="Edit" icon="pi pi-file-edit" variant="outlined" />
