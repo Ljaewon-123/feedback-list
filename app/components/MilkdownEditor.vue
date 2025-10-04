@@ -16,7 +16,7 @@ import {
   codeBlockConfig,
 } from '@milkdown/components/code-block'
 import { languages } from '@codemirror/language-data';
-import { Milkdown, useEditor } from '@milkdown/vue';
+import { Milkdown, useEditor, useInstance } from '@milkdown/vue';
 import { defaultValueCtx, Editor, editorViewCtx, rootCtx } from '@milkdown/kit/core';
 import { nord } from '@milkdown/theme-nord'
 import { commonmark, linkSchema } from '@milkdown/kit/preset/commonmark'
@@ -26,42 +26,10 @@ import { basicSetup } from 'codemirror';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { keymap } from '@codemirror/view';
 import { defaultKeymap } from '@codemirror/commands';
-import { Ctx } from "@milkdown/kit/ctx";
+import { getMarkdown } from '@milkdown/utils';
+import { listener, listenerCtx } from '@milkdown/kit/plugin/listener';
 
-const markdown =
-`# Milkdown Nuxt Commonmark
-
-> You're scared of a world where you're needed.
-
-This is a demo for using Milkdown with **Nuxt**.
-
-code block
-
-\`\`\`ts
-import { Editor } from '@milkdown/kit/core';
-import { commonmark } from '@milkdown/kit/preset/commonmark';
-
-import { nord } from '@milkdown/theme-nord';
-import '@milkdown/theme-nord/style.css';
-
-Editor
-  .make()
-  .config(nord)
-  .use(commonmark)
-  .create();
-\`\`\`
-
-??
-This is a demo for using [Milkdown](https://milkdown.dev) link tooltip component
-
-| Fruit | Animal | Vegetable |
-| ----- | :----: | --------: |
-| Apple | Cat    | Carrot    |
-| Banana| Dog    | Cabbage   |
-| Cherry| Horse  | Celery    |
-
-
-`
+const markdown = defineModel('md', { default: `# Write your **markdown** here!`})
 
 const toast = useToast();
 
@@ -70,7 +38,11 @@ useEditor((root) => {
     .config(nord)
     .config((ctx) => {
       ctx.set(rootCtx, root)
-      ctx.set(defaultValueCtx, markdown)
+      ctx.set(defaultValueCtx, markdown.value)
+
+      ctx.get(listenerCtx).markdownUpdated((ctx, md, prevMarkdown) => {
+        markdown.value = md 
+      })
     })
     .config(ctx => {
       ctx.update(codeBlockConfig.key, (defaultConfig) => ({
@@ -93,7 +65,10 @@ useEditor((root) => {
     .use(listItemBlockComponent)
     .use(tableBlock)
     .use(codeBlockComponent)
+    .use(listener)
 })
+
+
 </script>
 
 <template>

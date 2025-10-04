@@ -62,7 +62,9 @@ const visibleUpsertDocumentDialog = () => {
   visible.value = true;
   currentData.value = undefined
 }
+const contentInfo = useState<DocumentMeta | null>('docs', () => null)
 const supabase = useSupabaseClient<DocumentMeta>()
+
 const { data: docses, refresh } = await useLazyAsyncData<PostgrestSingleResponse<DocumentMeta[]>>('supabase.docuemt_meta', async () => {
   return await supabase
     .from('document_meta')
@@ -99,8 +101,9 @@ const toggle = (data: any, event: any, ) => {
   menu.value.toggle(event);
 };
 
-const clickRow = async (evt: any) => {
+const clickRow = async (evt: { data: DocumentMeta }) => {
   console.log(evt)
+  contentInfo.value = evt.data
   await navigateTo(`/dashboard/project/docs-${evt.data.id}`)
 }
 
