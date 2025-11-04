@@ -55,12 +55,17 @@ const routeHanlder = async() => {
         <div
           class="relative flex h-fit w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background p-px md:shadow-xl"
         >
-          <img
-            src="/favicon.ico"
-            class="w-full rounded-md"
-          />
+          <UiCompare
+            class="z-0"
+            first-image="darkmd.png"
+            second-image="lightmd.png"
+            first-content-class="object-cover object-left-top rounded-xl overflow-hidden"
+            second-content-class="object-cover object-left-top rounded-xl overflow-hidden"
+            slide-mode="hover"
+          >
+          </UiCompare>
           <UiBorderBeam
-            :size="250"
+            :size="300"
             :duration="12"
             :delay="9"
             :border-width="2"
